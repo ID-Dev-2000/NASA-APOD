@@ -3,6 +3,7 @@ let APOD = document.getElementById('APOD')
 let fetchedImageExplanation = document.getElementById('fetchedImageExplanation')
 let fetchedImageAuthor = document.getElementById('fetchedImageAuthor')
 let imageDate = document.getElementById('date')
+let videoDisplay = document.getElementById('videoDisplay')
 
 // API Fetch
 async function fetchAPIData() {
@@ -14,7 +15,15 @@ async function fetchAPIData() {
 // Display API Data on page
 async function displayAPIData() {
     let fetchedAPIDATA = await fetchAPIData()
-    APOD.src = fetchedAPIDATA.url
+    console.log(fetchedAPIDATA.media_type)
+    if(fetchedAPIDATA.media_type == "video"){
+        APOD.style.display = "none"
+        videoDisplay.width = "620"
+        videoDisplay.height = "360"
+        videoDisplay.src = fetchedAPIDATA.url
+    } else {
+        APOD.src = fetchedAPIDATA.url
+    }
     fetchedImageExplanation.innerHTML = fetchedAPIDATA.explanation
     fetchedImageAuthor.innerHTML = `Credit: ${fetchedAPIDATA.copyright}`
     imageDate.innerHTML = fetchedAPIDATA.date
